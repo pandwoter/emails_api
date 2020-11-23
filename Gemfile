@@ -12,6 +12,7 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'sidekiq', '~> 5.2.9'
 gem 'sidekiq-statistic', '~> 1.4.0'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'pagy', '~> 3.9.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
