@@ -1,4 +1,22 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  include Dry::Monads[:result]
+
+  default from: 'ggcampaigns@gmail.com'
   layout 'mailer'
+
+  def campaign_mail(campaign)
+    @message = campaign.message
+    recipients = campaign.recipients.pluck(:email)
+
+    mail(
+      to: recipients,
+      subject: campaign.subject,
+      template_path: '/layouts',
+      template_name: 'campaign_mail'
+    )
+  end
+
+  def errors_interceptor
+    raise NotImplementedError, 'You schould implement this in particular provider class'
+  end
 end

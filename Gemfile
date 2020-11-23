@@ -14,6 +14,11 @@ gem 'sidekiq-statistic', '~> 1.4.0'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'pagy', '~> 3.9.0'
 
+# Delivery providers #
+gem 'sparkpost_rails', '~> 1.5.3'
+gem 'mailgun-ruby', '~> 1.1.6'
+gem 'aws-ses', '~> 0.7.0', require: 'aws/ses'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry'
