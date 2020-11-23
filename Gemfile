@@ -14,6 +14,7 @@ gem 'sidekiq-statistic', '~> 1.4.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'pry'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'solargraph', '~> 0.39.0'
