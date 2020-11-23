@@ -4,13 +4,18 @@ module Campaigns
 
     RECIPIENTS_FILTER = /\s*[,;]\s*|\s{2,}|[\r\n]+/x.freeze
 
-    attr_reader :recipients, :subject, :message, :recipient_creation_service
+    attr_reader :recipients, :subject, :message, :recipient_creation_service, :email_delivery_worker
 
-    def initialize(params, recipient_creation_service = Recipients::RecipientCreationService)
+    def initialize(
+      params,
+      recipient_creation_service = Recipients::RecipientCreationService,
+      email_delivery_worker = EmailDeliveryWorker
+    )
       @subject = params[:subject]
       @message = params[:message]
       @recipients = params[:recipients]
 
+      @email_delivery_worker = email_delivery_worker
       @recipient_creation_service = recipient_creation_service
     end
 
@@ -19,6 +24,8 @@ module Campaigns
 
       with_transaction do
         case result = create_campaign_with_recipients
+        when Success
+          schedule_delivery(result.value!.id)
         when Failure
           raise ActiveRecord::Rollback
         end
@@ -53,6 +60,10 @@ module Campaigns
       Success(campaign)
     rescue ActiveRecord::RecordInvalid => e
       Failure(e.record.errors.to_h)
+    end
+
+    def schedule_delivery(campaign_id)
+      email_delivery_worker.perform_async(campaign_id)
     end
 
     def create_recipients

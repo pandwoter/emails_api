@@ -46,7 +46,8 @@ CREATE TABLE public.campaigns (
     subject character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    delivery_state public.campaign_delivery_state
+    delivery_state public.campaign_delivery_state,
+    delivery_date timestamp without time zone
 );
 
 
@@ -203,6 +204,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201123091706'),
 ('20201123091740'),
 ('20201123092526'),
-('20201123092950');
+('20201123092950'),
+('20201123150248');
 
 
