@@ -5,7 +5,7 @@ module Providers
 
       def errors_interceptor
         Success(yield)
-      rescue ::Aws::SES::Errors => e
+      rescue ::Aws::SES::Errors::ServiceError => e
         Failure(e)
       end
     end

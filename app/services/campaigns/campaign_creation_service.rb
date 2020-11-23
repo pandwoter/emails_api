@@ -9,7 +9,7 @@ module Campaigns
     def initialize(
       params,
       recipient_creation_service = Recipients::RecipientCreationService,
-      email_delivery_worker = EmailDeliveryWorker
+      email_delivery_worker = Delivery::EmailDeliveryWorker
     )
       @subject = params[:subject]
       @message = params[:message]

@@ -46,7 +46,7 @@ module Delivery
     end
 
     def enabled_providers
-      %w[Sparkpost Mailgun Aws]
+      %w[Sparkpost Aws Mailgun]
     end
   end
 end

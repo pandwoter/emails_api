@@ -1,8 +1,8 @@
-class AbstractService
-  include Dry::Monads[:list]
+class AbstractWorker
+  include Sidekiq::Worker
   include Dry::Monads[:result]
 
-  def call
+  def perform
     raise NotImplementedError, 'You schould implement this in particular provider class'
   end
 end
