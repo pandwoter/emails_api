@@ -2,7 +2,6 @@ class EmailDeliveryWorker
   include Sidekiq::Worker
 
   def perform(campaign_id)
-    binding.pry
     result = Delivery::EmailDeliveryService.new(campaign_id).call
 
     case result
