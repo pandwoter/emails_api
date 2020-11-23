@@ -1,8 +1,8 @@
 module Mixins
   module Transactionable
-    def with_transaction(&block)
+    def with_transaction
       ActiveRecord::Base.transaction do
-        block.call
+        yield
       end
     end
   end

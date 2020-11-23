@@ -8,11 +8,11 @@ module Campaigns
 
     def initialize(
       params,
-      recipient_creation_service = Recipients::RecipientCreationService,
-      email_delivery_worker = Delivery::EmailDeliveryWorker
+      email_delivery_worker = Delivery::EmailDeliveryWorker,
+      recipient_creation_service = Recipients::RecipientCreationService
     )
-      @subject = params[:subject]
-      @message = params[:message]
+      @subject    = params[:subject]
+      @message    = params[:message]
       @recipients = params[:recipients]
 
       @email_delivery_worker = email_delivery_worker

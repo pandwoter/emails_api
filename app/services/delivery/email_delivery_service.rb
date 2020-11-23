@@ -2,6 +2,8 @@ module Delivery
   class EmailDeliveryService < AbstractService
     attr_reader :campaign, :template_generation_method
 
+    ENABLED_PROVIDERS = %w[Sparkpost Aws Mailgun].freeze
+
     def initialize(campaign_id, template_generation_method = 'campaign_mail')
       @campaign = Campaign.find(campaign_id)
 
@@ -9,7 +11,7 @@ module Delivery
     end
 
     def call
-      enabled_providers.each do |provider|
+      ENABLED_PROVIDERS.each do |provider|
         result = perform_delivery(provider)
         return handle_success_delivery if result.is_a? Success
       end
@@ -43,10 +45,6 @@ module Delivery
 
     def provider_error_interceptor(provider)
       provider.errors_interceptor { yield }
-    end
-
-    def enabled_providers
-      %w[Sparkpost Aws Mailgun]
     end
   end
 end
