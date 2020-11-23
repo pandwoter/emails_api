@@ -2,6 +2,8 @@
 Problem: email campaigns delivery (proxy) service. Implemented backend for UI from task technical description. Service handles calls to external Mail delivery providers in background worker.
 
 ## - How to run the solution locally (no need to set up a live server or infrastructure).
+This API is deployed - [here](https://gg-email-api.herokuapp.com/)
+Also here is Postman with predefined endpoints [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fe4b606aa34b9d8aff31)
 ```bash
 git clone https://github.com/pandwoter/emails_api
 cd emails_api
