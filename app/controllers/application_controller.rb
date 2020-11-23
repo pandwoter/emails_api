@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include Pagy::Backend
   include Dry::Monads[:result]
 
   rescue_from ActiveRecord::RecordNotFound do |e|

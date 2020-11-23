@@ -12,10 +12,6 @@ module Api
         end
       end
 
-      def show
-        render json: Campaign.find(params[:id])
-      end
-
       private
 
       def campaign_params
