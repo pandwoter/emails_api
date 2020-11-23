@@ -1,9 +1,20 @@
 module Api
   module V1
     class CampaignsController < ApplicationController
-      def create; end
+      def create
+        result = Campaigns::CampaignCreationService.new(campaign_params).call
 
-      def show; end
+        case result
+        when Success
+          render json: result.value!
+        when Failure
+          render json: result.failure, status: :unprocessable_entity
+        end
+      end
+
+      def show
+        render json: Campaign.find(params[:id])
+      end
 
       private
 

@@ -14,6 +14,7 @@ SET row_security = off;
 --
 
 CREATE TYPE public.campaign_delivery_state AS ENUM (
+    'pending',
     'delivered',
     'failed'
 );
@@ -45,7 +46,6 @@ CREATE TABLE public.campaigns (
     subject character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    recipient_id bigint,
     delivery_state public.campaign_delivery_state
 );
 
@@ -67,6 +67,16 @@ CREATE SEQUENCE public.campaigns_id_seq
 --
 
 ALTER SEQUENCE public.campaigns_id_seq OWNED BY public.campaigns.id;
+
+
+--
+-- Name: campaigns_recipients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.campaigns_recipients (
+    campaign_id bigint NOT NULL,
+    recipient_id bigint NOT NULL
+);
 
 
 --
@@ -156,13 +166,6 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: index_campaigns_on_recipient_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_campaigns_on_recipient_id ON public.campaigns USING btree (recipient_id);
-
-
---
 -- Name: index_campaigns_on_subject; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -170,18 +173,24 @@ CREATE INDEX index_campaigns_on_subject ON public.campaigns USING btree (subject
 
 
 --
+-- Name: index_campaigns_recipients_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaigns_recipients_on_campaign_id ON public.campaigns_recipients USING btree (campaign_id);
+
+
+--
+-- Name: index_campaigns_recipients_on_recipient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaigns_recipients_on_recipient_id ON public.campaigns_recipients USING btree (recipient_id);
+
+
+--
 -- Name: index_recipients_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_recipients_on_email ON public.recipients USING btree (email);
-
-
---
--- Name: campaigns fk_rails_a263ec9fa4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.campaigns
-    ADD CONSTRAINT fk_rails_a263ec9fa4 FOREIGN KEY (recipient_id) REFERENCES public.recipients(id);
 
 
 --

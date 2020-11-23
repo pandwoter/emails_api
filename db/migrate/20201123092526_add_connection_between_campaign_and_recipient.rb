@@ -1,5 +1,8 @@
 class AddConnectionBetweenCampaignAndRecipient < ActiveRecord::Migration[6.0]
   def change
-    add_reference :campaigns, :recipient, foreign_key: true
+    create_join_table :campaigns, :recipients do |t|
+      t.index :campaign_id
+      t.index :recipient_id
+    end
   end
 end
