@@ -16,10 +16,6 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/Documentation:
   Enabled: false
-Layout/EmptyLinesAroundModuleBody:
-  EnforcedStyle: empty_lines
-Layout/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines
 Layout/LineLength:
   Max: 120
 Metrics/ClassLength:
