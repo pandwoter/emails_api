@@ -13,9 +13,10 @@ gem 'puma', '~> 4.1'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 gem 'sidekiq', '~> 5.2.9'
 gem 'sidekiq-statistic', '~> 1.4.0'
+gem 'dotenv-rails'
 
 # Delivery providers #
-gem 'aws-ses', '~> 0.7.0', require: 'aws/ses'
+gem 'aws-sdk-rails', '~> 3.2.1'
 gem 'mailgun-ruby', '~> 1.1.6'
 gem 'sparkpost_rails', '~> 1.5.3'
 

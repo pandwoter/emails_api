@@ -1,7 +1,7 @@
 module Providers
   module Mailgun
     class BaseMailer < ApplicationMailer
-      default delivery_method: :mailgun
+      default from: ENV['MAILGUN_PROVIDER_DOMAIN'], delivery_method: :mailgun
 
       def errors_interceptor
         Success(yield)

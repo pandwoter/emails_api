@@ -1,11 +1,11 @@
 module Providers
   module Aws
     class BaseMailer < ApplicationMailer
-      default delivery_method: :ses
+      default from: ENV['AWS_PROVIDER_DOMAIN'], delivery_method: :ses
 
       def errors_interceptor
         Success(yield)
-      rescue ::AWS::SES::ResponseError => e
+      rescue ::Aws::SES::Errors => e
         Failure(e)
       end
     end

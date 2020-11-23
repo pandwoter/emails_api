@@ -1,7 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   include Dry::Monads[:result]
 
-  default from: 'ggcampaigns@gmail.com'
   layout 'mailer'
 
   def campaign_mail(campaign)

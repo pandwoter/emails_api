@@ -1,9 +1,7 @@
-ActionMailer::Base.add_delivery_method(
-  :ses, 
-  AWS::SES::Base,
-  {
-    access_key_id:     ENV['SES_KEY_ID'],
-    secret_access_key: ENV['SES_ACCESS_KEY'],
-    signature_version: 4
-  }
+creds = Aws::Credentials.new(ENV['AWS_KEY_ID'], ENV['AWS_ACCESS_KEY'])
+
+Aws::Rails.add_action_mailer_delivery_method(
+  :ses,
+  credentials: creds,
+  region: 'us-east-2'
 )
