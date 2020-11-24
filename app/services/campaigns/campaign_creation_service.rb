@@ -1,7 +1,5 @@
 module Campaigns
   class CampaignCreationService < BaseService
-    include Mixins::Transactionable
-
     RECIPIENTS_FILTER = /\s*[,;]\s*|\s{2,}|[\r\n]+/x.freeze
 
     attr_reader :recipients, :subject, :message, :recipient_creation_service, :email_delivery_worker
@@ -20,7 +18,7 @@ module Campaigns
     end
 
     def call
-      with_transaction do
+      ActiveRecord::Base.transaction do
         @result = create_campaign_with_recipients
         raise ActiveRecord::Rollback if @result.is_a? Failure
       end
