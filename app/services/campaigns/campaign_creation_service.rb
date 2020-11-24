@@ -6,8 +6,6 @@ module Campaigns
 
     attr_reader :recipients, :subject, :message, :recipient_creation_service, :email_delivery_worker
 
-    attr_accessor :result
-
     def initialize(
       params,
       email_delivery_worker = Delivery::EmailDeliveryWorker,
@@ -23,11 +21,11 @@ module Campaigns
 
     def call
       with_transaction do
-        result = create_campaign_with_recipients
-        raise ActiveRecord::Rollback if result.is_a? Failure
+        @result = create_campaign_with_recipients
+        raise ActiveRecord::Rollback if @result.is_a? Failure
       end
 
-      result
+      @result
     end
 
     private
@@ -36,8 +34,6 @@ module Campaigns
       create_campaign.bind do |campaign|
         create_recipients.fmap do |recipients|
           attach_recipients_to_campaign(recipients, campaign)
-
-          schedule_delivery(campaign.id)
         end
       end
     end
