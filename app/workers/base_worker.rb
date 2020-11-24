@@ -1,4 +1,4 @@
-class AbstractWorker
+class BaseWorker
   include Sidekiq::Worker
   include Dry::Monads[:result]
 

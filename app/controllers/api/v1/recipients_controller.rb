@@ -2,13 +2,15 @@ module Api
   module V1
     class RecipientsController < ApplicationController
       def index
-        _, recipients = pagy(Recipient.all)
+        @recipients = paginate Recipient.all
 
-        render json: recipients
+        render json: @recipients
       end
 
       def show
-        render json: Recipient.find(params[:id])
+        @recipients = Recipient.find(params[:id])
+
+        render json: @recipients
       end
     end
   end

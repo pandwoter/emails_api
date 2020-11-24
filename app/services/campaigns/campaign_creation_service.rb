@@ -1,10 +1,12 @@
 module Campaigns
-  class CampaignCreationService < AbstractService
+  class CampaignCreationService < BaseService
     include Mixins::Transactionable
 
     RECIPIENTS_FILTER = /\s*[,;]\s*|\s{2,}|[\r\n]+/x.freeze
 
     attr_reader :recipients, :subject, :message, :recipient_creation_service, :email_delivery_worker
+
+    attr_accessor :result
 
     def initialize(
       params,
@@ -15,20 +17,14 @@ module Campaigns
       @message    = params[:message]
       @recipients = params[:recipients]
 
-      @email_delivery_worker = email_delivery_worker
+      @email_delivery_worker      = email_delivery_worker
       @recipient_creation_service = recipient_creation_service
     end
 
     def call
-      result = nil
-
       with_transaction do
-        case result = create_campaign_with_recipients
-        when Success
-          schedule_delivery(result.value!.id)
-        when Failure
-          raise ActiveRecord::Rollback
-        end
+        result = create_campaign_with_recipients
+        raise ActiveRecord::Rollback if result.is_a? Failure
       end
 
       result
@@ -38,15 +34,16 @@ module Campaigns
 
     def create_campaign_with_recipients
       create_campaign.bind do |campaign|
-        create_recipients.fmap do |recipient|
-          attach_recipients_to_campaign(recipient, campaign)
+        create_recipients.fmap do |recipients|
+          attach_recipients_to_campaign(recipients, campaign)
+
+          schedule_delivery(campaign.id)
         end
       end
     end
 
-    def attach_recipients_to_campaign(recipient, campaign)
-      campaign.recipients << recipient
-
+    def attach_recipients_to_campaign(recipients, campaign)
+      campaign.recipients << recipients
       campaign
     end
 

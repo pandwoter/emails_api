@@ -1,4 +1,4 @@
-class AbstractService
+class BaseService
   include Dry::Monads[:list]
   include Dry::Monads[:result]
 

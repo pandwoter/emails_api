@@ -1,5 +1,5 @@
 module Delivery
-  class EmailDeliveryWorker < AbstractWorker
+  class EmailDeliveryWorker < BaseWorker
     def perform(campaign_id)
       result = Delivery::EmailDeliveryService.new(campaign_id).call
 

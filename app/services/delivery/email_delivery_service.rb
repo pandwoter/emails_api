@@ -1,5 +1,5 @@
 module Delivery
-  class EmailDeliveryService < AbstractService
+  class EmailDeliveryService < BaseService
     attr_reader :campaign, :template_generation_method
 
     ENABLED_PROVIDERS = %w[Sparkpost Aws Mailgun].freeze

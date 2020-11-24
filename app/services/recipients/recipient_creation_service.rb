@@ -1,5 +1,5 @@
 module Recipients
-  class RecipientCreationService < AbstractService
+  class RecipientCreationService < BaseService
     attr_reader :email
 
     def initialize(email)
