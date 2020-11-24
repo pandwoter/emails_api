@@ -40,6 +40,8 @@ module Campaigns
 
     def attach_recipients_to_campaign(recipients, campaign)
       campaign.recipients << recipients
+      schedule_delivery(campaign.id)
+
       campaign
     end
 

@@ -2,7 +2,7 @@ module Api
   module V1
     class RecipientsController < ApplicationController
       def index
-        @recipients = paginate Recipient.all
+        @recipients = Pagination::PaginationService.new(Recipient, params).call
 
         render json: @recipients
       end
