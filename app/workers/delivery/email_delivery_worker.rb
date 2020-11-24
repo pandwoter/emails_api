@@ -3,10 +3,7 @@ module Delivery
     def perform(campaign_id)
       result = Delivery::EmailDeliveryService.new(campaign_id).call
 
-      case result
-      when Failure
-        reschedule(campaign_id)
-      end
+      reschedule(campaign_id) if result.is_a? Failure
     end
 
     private

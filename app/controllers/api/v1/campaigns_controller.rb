@@ -4,10 +4,9 @@ module Api
       def create
         result = Campaigns::CampaignCreationService.new(campaign_params).call
 
-        case result
-        when Success
+        if result.is_a? Success
           render json: result.value!
-        when Failure
+        else
           render json: result.failure, status: :unprocessable_entity
         end
       end
