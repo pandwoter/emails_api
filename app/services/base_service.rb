@@ -1,3 +1,6 @@
+require 'dry/monads'
+require 'dry/monads/do'
+
 class BaseService
   include Dry::Monads[:list]
   include Dry::Monads[:result]
