@@ -1,5 +1,7 @@
 module Campaigns
   class CampaignCreationService < BaseService
+    include Dry::Monads::Do.for(:create_campaign_with_recipients)
+
     RECIPIENTS_FILTER = /\s*[,;]\s*|\s{2,}|[\r\n]+/x.freeze
 
     attr_reader :recipients, :subject, :message, :recipient_creation_service, :email_delivery_worker
@@ -29,16 +31,17 @@ module Campaigns
     private
 
     def create_campaign_with_recipients
-      create_campaign.bind do |campaign|
-        create_recipients.fmap do |recipients|
-          attach_recipients_to_campaign(recipients, campaign)
-        end
-      end
+      campaign   = yield create_campaign
+      recipients = yield create_recipients
+
+      attach_recipients_to_campaign(recipients, campaign)
+      schedule_delivery(campaign.id)
+
+      Success(campaign)
     end
 
     def attach_recipients_to_campaign(recipients, campaign)
       campaign.recipients << recipients
-      schedule_delivery(campaign.id)
 
       campaign
     end
